@@ -29,10 +29,12 @@ func main() {
 
 // 定义一个方法，用来找单个数字
 func sigleNum(nums []int) int {
+	// 创建一个map 用来装key 和key出现的次数
 	mapData := make(map[int]int)
 	for _, v := range nums {
 		mapData[v]++
 	}
+	// 循环map  查找key出现一次的key
 	for k, v := range mapData {
 		if v == 1 {
 			return k

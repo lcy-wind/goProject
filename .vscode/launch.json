@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "E:/AWEB3/goProject/goProject/dream01.go",
+            "program": "E:/AWEB3/project/goProject/dream02/dream02.go",
             "args": [
                 "--test=flags"
             ]
