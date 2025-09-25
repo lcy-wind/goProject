@@ -55,30 +55,30 @@ type Comment struct {
 }
 
 func main() {
-	// // gorm模型定义
-	// gormDB.AutoMigrate(&User{}, &Post{}, &Comment{})
+	// gorm模型定义
+	gormDB.AutoMigrate(&User{}, &Post{}, &Comment{})
 
-	// // // 数据准备
-	// gormDB.Create(&User{Username: "张三", Sex: "男", PostCount: 2})
-	// gormDB.Create(&User{Username: "李四", Sex: "女", PostCount: 2})
+	// // 数据准备
+	gormDB.Create(&User{Username: "张三", Sex: "男", PostCount: 2})
+	gormDB.Create(&User{Username: "李四", Sex: "女", PostCount: 2})
 
-	// gormDB.Create(&Post{Content: "GORM 入门1", UserID: 1, CommentStatus: 1})
-	// gormDB.Create(&Post{Content: "GORM 入门2", UserID: 1, CommentStatus: 1})
+	gormDB.Create(&Post{Content: "GORM 入门1", UserID: 1, CommentStatus: 1})
+	gormDB.Create(&Post{Content: "GORM 入门2", UserID: 1, CommentStatus: 1})
 
-	// gormDB.Create(&Post{Content: "GORM 进阶1", UserID: 2, CommentStatus: 1})
-	// gormDB.Create(&Post{Content: "GORM 进阶2", UserID: 2, CommentStatus: 1})
+	gormDB.Create(&Post{Content: "GORM 进阶1", UserID: 2, CommentStatus: 1})
+	gormDB.Create(&Post{Content: "GORM 进阶2", UserID: 2, CommentStatus: 1})
 
-	// gormDB.Create(&Comment{Content: "ORM1 入门的评论", PostID: 1})
-	// gormDB.Create(&Comment{Content: "ORM1 入门的评论", PostID: 1})
+	gormDB.Create(&Comment{Content: "ORM1 入门的评论", PostID: 1})
+	gormDB.Create(&Comment{Content: "ORM1 入门的评论", PostID: 1})
 
-	// gormDB.Create(&Comment{Content: "ORM2 入门的评论", PostID: 1})
-	// gormDB.Create(&Comment{Content: "ORM2 入门的评论", PostID: 2})
+	gormDB.Create(&Comment{Content: "ORM2 入门的评论", PostID: 1})
+	gormDB.Create(&Comment{Content: "ORM2 入门的评论", PostID: 2})
 
-	// gormDB.Create(&Comment{Content: "GORM1 进阶的评论", PostID: 3})
-	// gormDB.Create(&Comment{Content: "GORM1 进阶的评论", PostID: 3})
+	gormDB.Create(&Comment{Content: "GORM1 进阶的评论", PostID: 3})
+	gormDB.Create(&Comment{Content: "GORM1 进阶的评论", PostID: 3})
 
-	// gormDB.Create(&Comment{Content: "GORM1 进阶的评论", PostID: 3})
-	// gormDB.Create(&Comment{Content: "GORM2 进阶的评论", PostID: 4})
+	gormDB.Create(&Comment{Content: "GORM1 进阶的评论", PostID: 3})
+	gormDB.Create(&Comment{Content: "GORM2 进阶的评论", PostID: 4})
 
 	// // 关联查询
 	// //使用Gorm查询某个用户发布的所有文章及其对应的评论信息。
@@ -96,18 +96,16 @@ func main() {
 	// // 新增文章，自动更新用户文章数量
 	// gormDB.Create(&Post{Content: "GORM 入门3", UserID: 1, CommentStatus: 1})
 
-	//删除评论，自动更新文章评论状态
-	var comment Comment
-	gormDB.Debug().Where("id = ?", 8).Find(&comment)
-	gormDB.Debug().Where("id = ?", comment.ID).Delete(&comment)
+	// //删除评论，自动更新文章评论状态
+	// var comment Comment
+	// gormDB.Debug().Where("id = ?", 8).Find(&comment)
+	// gormDB.Debug().Where("id = ?", comment.ID).Delete(&comment)
 
 }
 func (c *Comment) AfterDelete(tx *gorm.DB) (err error) {
-	fmt.Println("删除评论数据", c.PostID)
 	// 更新文章评论状态  如果没有评论了，则设置为0 无评论状态
 	var count int64
 	tx.Model(&Comment{}).Where("post_id = ?", c.PostID).Count(&count)
-	fmt.Println("删除评论后，文章仍有评论", count)
 	if count == 0 {
 		tx.Model(&Post{}).Where("id = ?", c.PostID).Update("comment_status", 0)
 		fmt.Println("删除评论后，更新文章评论状态为无评论")
