@@ -41,6 +41,13 @@ type Employee struct {
 	Salary     float64 `db:"salary"`
 }
 
+type Book struct {
+	Id     int
+	Title  string
+	Author string
+	Price  int
+}
+
 func main() {
 	// 取技术部的人员信息
 	var employees []Employee
@@ -53,4 +60,10 @@ func main() {
 	sql = "select id, name, department, salary from employees order by salary desc limit 1"
 	sqxDB.Get(&topEmployee, sql)
 	fmt.Println(topEmployee)
+
+	var books []Book
+	sql = "select * from books where price > ?"
+	sqxDB.Select(&books, sql, 50)
+	fmt.Println(books)
+
 }

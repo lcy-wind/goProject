@@ -30,6 +30,7 @@ type transactions struct {
 }
 
 func main() {
+
 	// db.AutoMigrate(&accounts{}, &transactions{})
 	// db.Create(&accounts{Id: 1, Balance: 300})
 	// db.Create(&accounts{Id: 2, Balance: 300})
